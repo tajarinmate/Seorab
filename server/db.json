@@ -1,34 +1,59 @@
 {
   "contents": [
     {
+      "i": "a",
       "title": "id1번",
       "text": "id1번입니다",
       "category_id": 3,
-      "id": 1
+      "id": 1,
+      "x": 0,
+      "y": 0, 
+      "w": 1, 
+      "h": 1
     },
     {
+      "i": "b",
       "title": "id3번",
       "text": "id3번 내용 수정 완!",
       "category_id": 3,
-      "id": 3
+      "id": 3,
+      "x": 1,
+      "y": 0, 
+      "w": 1, 
+      "h": 1
     },
     {
+      "i": "c",
       "title": "id4번",
       "text": "id4번입니다",
       "category_id": 3,
-      "id": 4
+      "id": 4,
+      "x": 2,
+      "y": 0, 
+      "w": 1, 
+      "h": 1
     },
     {
+      "i": "d",
       "title": "id5번",
       "text": "id5번입니다",
       "category_id": 3,
-      "id": 5
+      "id": 5,
+      "x": 3,
+      "y": 0, 
+      "w": 1, 
+      "h": 1
     },
     {
+      "i": "e",
       "title": "id7번",
       "text": "ㅇㄴㅇㄴㅇ",
       "category_id": 3,
-      "id": 7
+      "id": 7,
+      "x": 4,
+      "y": 0, 
+      "w": 1, 
+      "h": 1
     }
   ]
 }

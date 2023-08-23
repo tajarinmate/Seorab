@@ -1,14 +1,52 @@
 'use client';
 
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ChangeEvent, FormEvent, useCallback } from 'react';
 import Link from 'next/link';
 import Grid from '@/components/Grid';
 
+axios.defaults.baseURL = 'http://localhost:3001';
+
+interface Content {
+  title: string;
+  text: string;
+  category_id: number;
+}
+type LayoutProps = {
+  i: string;
+  title: string;
+  text: string;
+  category_id: number;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 export default function Home() {
+  // GET
+  const getContents = async () => {
+    try {
+      const response = await axios.get('/contents');
+      return response.data;
+    } catch (error) {
+      alert('조회 에러');
+    }
+  };
+  const {
+    data: contents,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<LayoutProps[], boolean>('contents', getContents);
+
+  useEffect(() => {
+    getContents()
+  }, [])
+
   return (
     <>
       <Header>
@@ -20,7 +58,7 @@ export default function Home() {
         메인입니당
         <SortButton>정렬</SortButton>
         <Content>
-          <Grid />
+          {contents && <Grid layout={contents}/>}
         </Content>
       </Main>
     </>
