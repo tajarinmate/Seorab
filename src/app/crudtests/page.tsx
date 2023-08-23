@@ -214,4 +214,3 @@ const Button = styled.button`
 `;
 
 const List = styled.li``;
-droppable-element

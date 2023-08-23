@@ -38,16 +38,11 @@ const Header = styled.header`
 
 const Title = styled(Link)`
   font-size: 32px;
-  // 공통 스타일
   color: black;
   text-decoration: none;
 `;
 
 const Button = styled.button`
-  // 공통 스타일
-  all: unset;
-  cursor: pointer;
-
   border-radius: 1px;
   width: 50px;
   height: 50px;
@@ -60,9 +55,6 @@ const Main = styled.main`
 `;
 
 const SortButton = styled.button`
-  // 공통 스타일
-  all: unset;
-  cursor: pointer;
   background-color: lightsalmon;
 `;
 

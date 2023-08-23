@@ -1,6 +1,5 @@
 'use client';
-
-import StyledComponentsRegistry from './styling/registry';
+import { Registry as StyledComponentRegistry } from "@/styles/registry"
 import { QueryClient, QueryClientProvider } from 'react-query';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -23,7 +22,7 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          <StyledComponentRegistry>{children}</StyledComponentRegistry>
         </QueryClientProvider>
       </body>
     </html>
