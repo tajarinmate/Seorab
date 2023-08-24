@@ -8,6 +8,7 @@ import { ChangeEvent, FormEvent, useCallback } from 'react';
 import Link from 'next/link';
 import { Grid } from '@/components/Grid/Grid';
 import { Nav } from '@/components/Nav/Nav';
+import { SideBar } from '@/components/SideBar/SideBar';
 import Image from 'next/image';
 
 axios.defaults.baseURL = 'http://localhost:3001';
@@ -51,6 +52,7 @@ export default function Home() {
 
   return (
     <>
+      {/* <SideBar /> */}
       <Nav />
       <Main>
         메인입니당

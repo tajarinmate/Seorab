@@ -1,13 +1,21 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
+import { SideBar } from '@/components/SideBar/SideBar';
 
 export function Nav() {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleSide = () => {
+    setIsOpen(true);
+  };
+
   return (
     <Header>
-      <Button>
+      <Button onClick={toggleSide}>
         <Image src='/more.png' alt='더보기' width={50} height={50} />
       </Button>
+      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <Title href='/'>서랍</Title>
       <Button>
         <Image src='/mypage.png' alt='마이페이지' width={40} height={40} />
