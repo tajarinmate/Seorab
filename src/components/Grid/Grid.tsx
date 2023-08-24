@@ -14,9 +14,9 @@ type LayoutProps = {
   y: number;
   w: number;
   h: number;
-}
+};
 
-export default function Grid({layout}: LayoutProps[] | any) {
+export function Grid({ layout }: LayoutProps[] | any) {
   return (
     <Root>
       <ResponsiveGridLayout
@@ -27,18 +27,14 @@ export default function Grid({layout}: LayoutProps[] | any) {
         rowHeight={300}
         width={1000}
         containerPadding={[0, 0]}
-      > 
-        {
-          layout.map((item: LayoutProps) => {
-            return (
-              <GridItemWrapper key={item.i}>
-                <GridItemContent>{item.text}</GridItemContent>
-              </GridItemWrapper>
-            )
-          
-          }
-          )
-        }
+      >
+        {layout.map((item: LayoutProps) => {
+          return (
+            <GridItemWrapper key={item.i}>
+              <GridItemContent>{item.text}</GridItemContent>
+            </GridItemWrapper>
+          );
+        })}
       </ResponsiveGridLayout>
     </Root>
   );

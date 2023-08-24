@@ -6,7 +6,9 @@ import styled from 'styled-components';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ChangeEvent, FormEvent, useCallback } from 'react';
 import Link from 'next/link';
-import Grid from '@/components/Grid';
+import { Grid } from '@/components/Grid/Grid';
+import { Nav } from '@/components/Nav/Nav';
+import Image from 'next/image';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -24,7 +26,7 @@ type LayoutProps = {
   y: number;
   w: number;
   h: number;
-}
+};
 
 export default function Home() {
   // GET
@@ -44,48 +46,20 @@ export default function Home() {
   } = useQuery<LayoutProps[], boolean>('contents', getContents);
 
   useEffect(() => {
-    getContents()
-  }, [])
+    getContents();
+  }, []);
 
   return (
     <>
-      <Header>
-        <Button>더보기</Button>
-        <Title href='/'>서랍</Title>
-        <Button>마이페이지</Button>
-      </Header>
+      <Nav />
       <Main>
         메인입니당
         <SortButton>정렬</SortButton>
-        <Content>
-          {contents && <Grid layout={contents}/>}
-        </Content>
+        <Content>{contents && <Grid layout={contents} />}</Content>
       </Main>
     </>
   );
 }
-
-const Header = styled.header`
-  width: auto;
-  background-color: #ffd100;
-  text-align: center;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-`;
-
-const Title = styled(Link)`
-  font-size: 32px;
-  color: black;
-  text-decoration: none;
-`;
-
-const Button = styled.button`
-  border-radius: 1px;
-  width: 50px;
-  height: 50px;
-  background-color: aquamarine;
-`;
 
 const Main = styled.main`
   background-color: antiquewhite;
