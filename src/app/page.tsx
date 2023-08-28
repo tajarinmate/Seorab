@@ -18,6 +18,13 @@ interface Content {
   text: string;
   category_id: number;
 }
+
+const InitContent = {
+  title: '',
+  text: '',
+  category_id: 3,
+};
+
 type LayoutProps = {
   i: string;
   title: string;
@@ -30,6 +37,8 @@ type LayoutProps = {
 };
 
 export default function Home() {
+  const queryClient = useQueryClient();
+  const [content, setContent] = useState<Content>(InitContent);
   // GET
   const getContents = async () => {
     try {
@@ -50,6 +59,34 @@ export default function Home() {
     getContents();
   }, []);
 
+  // POST
+  const addContent = async (body: Content) => {
+    try {
+      const { data } = await axios.post(`/contents`, body);
+      return data;
+    } catch (error) {
+      alert('저장 에러');
+    }
+  };
+
+  const { mutate: addMutate } = useMutation(addContent, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('contents');
+    },
+  });
+
+  const handleAddContent = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      addMutate(content);
+      setContent(InitContent);
+    },
+    [addMutate, content]
+  );
+
+  // 브라우저 창 닫힘 이벤트
+  // beforeunload
+
   return (
     <>
       {/* <SideBar /> */}
@@ -57,7 +94,7 @@ export default function Home() {
       <Main>
         메인입니당
         <SortButton>정렬</SortButton>
-        <Content>{contents && <Grid layout={contents} />}</Content>
+        <Content>{contents && <Grid content={contents} />}</Content>
       </Main>
     </>
   );
