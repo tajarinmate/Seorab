@@ -15,7 +15,7 @@ export function Nav() {
       <Button onClick={toggleSide}>
         <Image src='/more.png' alt='더보기' width={50} height={50} />
       </Button>
-      {/* <SideBar isOpen={isOpen} setIsOpen={setIsOpen} /> */}
+      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <Title href='/'>서랍</Title>
       <Button>
         <Image src='/mypage.png' alt='마이페이지' width={40} height={40} />

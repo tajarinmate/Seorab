@@ -89,7 +89,6 @@ export default function Home() {
 
   return (
     <>
-      {/* <SideBar /> */}
       <Nav />
       <Main>
         메인입니당

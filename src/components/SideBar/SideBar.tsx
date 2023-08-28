@@ -50,10 +50,10 @@ const CategoryWrap = styled.div`
   height: 100%;
   width: 20%;
   left: -20%;
-  transition: 0.5s ease;
+  transition: 0.3s ease;
   &.open {
     left: 0;
-    transition: 0.5s ease;
+    transition: 0.3s ease;
   }
   display: flex;
   flex-flow: column nowrap;

@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { ChangeEvent, FormEvent, useCallback } from 'react';
+import Link from 'next/link';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -17,12 +21,12 @@ type ContentProps = {
   h: number;
 };
 
-type LayoutType = {
-  breakpoints: string;
-  layouts: Layouts;
-};
+interface ModifyContent {
+  id: string;
+  text: string;
+}
 
-export function Grid({ content }: { content: Layout[] }) {
+export function Grid({ content }: { content: ContentProps[] }) {
   const originalLayouts = getFromLayouts('layouts');
   const [state, setState] = useState({
     breakpoints: 'lg',
@@ -48,11 +52,6 @@ export function Grid({ content }: { content: Layout[] }) {
     }));
   };
 
-  // 창 닫았을 때 저장?
-  const handleExit = () => {
-    console.log('나 닫기');
-  };
-
   return (
     <Root>
       <ResponsiveGridLayout
@@ -68,15 +67,14 @@ export function Grid({ content }: { content: Layout[] }) {
         onBreakpointChange={onBreakPointChange}
         // useCSSTransforms={true} <- 성능 개선할 수 있다함
       >
-        {content.map((item: Layout) => {
+        {content.map((item: ContentProps) => {
           return (
             <GridItemWrapper key={item.i}>
-              <GridItemContent>{item.w}</GridItemContent>
+              <GridItemContent>{item.text}</GridItemContent>
             </GridItemWrapper>
           );
         })}
       </ResponsiveGridLayout>
-      <button onClick={handleExit}>닫기</button>
     </Root>
   );
 }
@@ -108,7 +106,7 @@ const GridItemWrapper = styled.div`
 `;
 
 const GridItemContent = styled.div`
-  /* background-color: lightcoral; */
+  background-color: lightcoral;
   padding: 8px;
 `;
 
