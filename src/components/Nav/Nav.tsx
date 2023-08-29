@@ -13,7 +13,13 @@ export function Nav() {
   return (
     <Header>
       <Button onClick={toggleSide}>
-        <Image src='/more.png' alt='더보기' width={50} height={50} />
+        <Image
+          priority={true}
+          src='/more.png'
+          alt='더보기'
+          width={50}
+          height={50}
+        />
       </Button>
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <Title href='/'>서랍</Title>
@@ -25,7 +31,6 @@ export function Nav() {
 }
 
 const Header = styled.header`
-  width: auto;
   background-color: #ffd100;
   display: flex;
   flex-flow: row nowrap;

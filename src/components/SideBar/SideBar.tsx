@@ -49,11 +49,11 @@ const CategoryWrap = styled.div`
   position: fixed;
   height: 100%;
   width: 20%;
-  left: -20%;
-  transition: 0.3s ease;
+  left: -60%;
+  transition: 0.8s ease;
   &.open {
     left: 0;
-    transition: 0.3s ease;
+    transition: 0.4s ease;
   }
   display: flex;
   flex-flow: column nowrap;
@@ -61,14 +61,12 @@ const CategoryWrap = styled.div`
 `;
 
 const ExitButton = styled.button`
-  /* background-color: lightslategray; */
   position: absolute;
 
   right: 15px;
 `;
 
 const CategoryTitle = styled.h2`
-  /* background-color: antiquewhite; */
   text-align: left;
   color: #151757;
   font-size: 32px;

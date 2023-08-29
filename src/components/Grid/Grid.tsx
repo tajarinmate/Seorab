@@ -5,10 +5,16 @@ import 'react-resizable/css/styles.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { ChangeEvent, FormEvent, useCallback } from 'react';
+import { ChangeEvent, MouseEvent, useCallback } from 'react';
 import Link from 'next/link';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
+
+type GridProps = {
+  content: ContentProps[];
+  handleAddContent: (MouseEvent: any) => void;
+  handleUpdateLayout: (layouts: Layouts) => void;
+};
 
 type ContentProps = {
   i: string;
@@ -21,12 +27,11 @@ type ContentProps = {
   h: number;
 };
 
-interface ModifyContent {
-  id: string;
-  text: string;
-}
-
-export function Grid({ content }: { content: ContentProps[] }) {
+export function Grid({
+  content,
+  handleAddContent,
+  handleUpdateLayout,
+}: GridProps) {
   const originalLayouts = getFromLayouts('layouts');
   const [state, setState] = useState({
     breakpoints: 'lg',
@@ -52,29 +57,41 @@ export function Grid({ content }: { content: ContentProps[] }) {
     }));
   };
 
+  const handleSaveLayout = (e: MouseEvent) => {
+    e.preventDefault();
+    // handleUpdateLayout(state.layouts);
+    console.log(state.layouts);
+  };
+
   return (
     <Root>
-      <ResponsiveGridLayout
-        layouts={state.layouts}
-        measureBeforeMount={false}
+      <SResponsiveGridLayout
+        layouts={{ lg: state.layouts.lg }}
+        measureBeforeMount={true}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }}
-        rowHeight={100}
+        rowHeight={200}
         width={1000}
         containerPadding={[0, 0]}
         isResizable={true}
         onLayoutChange={(layout, layouts) => onLayoutChange(layout, layouts)}
         onBreakpointChange={onBreakPointChange}
-        // useCSSTransforms={true} <- 성능 개선할 수 있다함
+        compactType={null}
+        // useCSSTransforms={true} // CSS에서 position 속성 대신 translate()를 사용 -> 페인트 단계에서 6배 빠름
       >
         {content.map((item: ContentProps) => {
           return (
             <GridItemWrapper key={item.i}>
+              <GridItemContent>{item.title}</GridItemContent>
               <GridItemContent>{item.text}</GridItemContent>
             </GridItemWrapper>
           );
         })}
-      </ResponsiveGridLayout>
+      </SResponsiveGridLayout>
+      <Flex>
+        <AddButton onClick={handleAddContent}>추가</AddButton>
+        <AddButton onClick={handleSaveLayout}>레이아웃 DB에 저장</AddButton>
+      </Flex>
     </Root>
   );
 }
@@ -105,13 +122,28 @@ const GridItemWrapper = styled.div`
   border: 4px solid #151757;
 `;
 
-const GridItemContent = styled.div`
-  background-color: lightcoral;
+const GridItemContent = styled.p`
   padding: 8px;
 `;
 
 const Root = styled.div`
   padding: 16px;
+`;
+
+const SResponsiveGridLayout = styled(ResponsiveGridLayout)`
+  background-color: bisque;
+  border-radius: 10px;
+`;
+
+const Flex = styled.div`
   display: flex;
-  background-color: lightgreen;
+`;
+
+const AddButton = styled.button`
+  width: 100px;
+  height: 70px;
+  background-color: lightblue;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #5297d8;
 `;

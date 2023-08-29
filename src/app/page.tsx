@@ -4,12 +4,11 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { ChangeEvent, FormEvent, useCallback } from 'react';
+import { ChangeEvent, MouseEvent, useCallback } from 'react';
 import Link from 'next/link';
 import { Grid } from '@/components/Grid/Grid';
 import { Nav } from '@/components/Nav/Nav';
-import { SideBar } from '@/components/SideBar/SideBar';
-import Image from 'next/image';
+import { Responsive, WidthProvider, Layout, Layouts } from 'react-grid-layout';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -19,13 +18,7 @@ interface Content {
   category_id: number;
 }
 
-const InitContent = {
-  title: '',
-  text: '',
-  category_id: 3,
-};
-
-type LayoutProps = {
+type ContentProps = {
   i: string;
   title: string;
   text: string;
@@ -35,6 +28,17 @@ type LayoutProps = {
   w: number;
   h: number;
 };
+
+const InitContent = {
+  title: '',
+  text: '',
+  category_id: 3,
+};
+
+interface ModifyContent {
+  id: string;
+  text: string;
+}
 
 export default function Home() {
   const queryClient = useQueryClient();
@@ -53,14 +57,14 @@ export default function Home() {
     isLoading,
     error,
     refetch,
-  } = useQuery<LayoutProps[], boolean>('contents', getContents);
+  } = useQuery<ContentProps[], boolean>('contents', getContents);
 
   useEffect(() => {
     getContents();
   }, []);
 
   // POST
-  const addContent = async (body: Content) => {
+  const addContent = async (body: ContentProps) => {
     try {
       const { data } = await axios.post(`/contents`, body);
       return data;
@@ -76,40 +80,105 @@ export default function Home() {
   });
 
   const handleAddContent = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    (e: MouseEvent) => {
       e.preventDefault();
+      const randomI = Math.random().toString().substr(2, 8);
+      const content = {
+        i: randomI,
+        title: `id${randomI}번`,
+        text: `id${randomI}번 입니다`,
+        category_id: 2,
+        id: randomI,
+        x: 5,
+        y: 0,
+        w: 1,
+        h: 1,
+      };
       addMutate(content);
-      setContent(InitContent);
     },
-    [addMutate, content]
+    [addMutate]
+  );
+
+  // PUT
+  const updateLayout = async (modifyBody: Layouts) => {
+    try {
+      const originalData = await axios.get(`/contents`);
+      const updateArray: ContentProps[] = [];
+      originalData.data.map((content: ContentProps, index: number) => {
+        const updateObj = {
+          ...content,
+          x: modifyBody.lg[index].x,
+          y: modifyBody.lg[index].y,
+          w: modifyBody.lg[index].w,
+          h: modifyBody.lg[index].h,
+        };
+        updateArray.push(updateObj);
+      });
+      const { data } = await axios.patch(`/contents`, updateArray);
+      return data;
+    } catch {
+      alert('수정 오류');
+    }
+  };
+
+  const { mutate: updateMutate } = useMutation(updateLayout, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('contents');
+    },
+  });
+
+  const handleUpdateLayout = useCallback(
+    (layouts: Layouts) => {
+      updateMutate(layouts);
+      console.log('여기 있어!2');
+    },
+    [updateMutate]
   );
 
   // 브라우저 창 닫힘 이벤트
   // beforeunload
 
   return (
-    <>
+    <Container>
       <Nav />
       <Main>
-        메인입니당
         <SortButton>정렬</SortButton>
-        <Content>{contents && <Grid content={contents} />}</Content>
+        <Content>
+          {contents && (
+            <Grid
+              content={contents}
+              handleAddContent={handleAddContent}
+              handleUpdateLayout={handleUpdateLayout}
+            />
+          )}
+        </Content>
       </Main>
-    </>
+    </Container>
   );
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+`;
+
 const Main = styled.main`
   background-color: antiquewhite;
-  height: 600px;
+  display: flex;
+  flex-flow: column nowrap;
 `;
 
 const SortButton = styled.button`
   background-color: lightsalmon;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
 `;
 
 const Content = styled.div`
   background-color: lightcyan;
+  min-height: 80vh;
   margin-top: 60px;
-  height: 100%;
 `;
