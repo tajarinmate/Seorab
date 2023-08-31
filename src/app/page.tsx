@@ -4,11 +4,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { ChangeEvent, MouseEvent, useCallback } from 'react';
-import Link from 'next/link';
-import { Grid } from '@/components/Grid/Grid';
-import { Nav } from '@/components/Nav/Nav';
-import { Responsive, WidthProvider, Layout, Layouts } from 'react-grid-layout';
+import { MouseEvent, useCallback } from 'react';
+import { Grid, Nav } from '@/components/index';
+import { getAllContents } from '@/utils/index';
+import { Layouts } from 'react-grid-layout';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -29,12 +28,6 @@ type ContentProps = {
   h: number;
 };
 
-const InitContent = {
-  title: '',
-  text: '',
-  category_id: 3,
-};
-
 interface ModifyContent {
   id: string;
   text: string;
@@ -42,26 +35,12 @@ interface ModifyContent {
 
 export default function Home() {
   const queryClient = useQueryClient();
-  const [content, setContent] = useState<Content>(InitContent);
-  // GET
-  const getContents = async () => {
-    try {
-      const response = await axios.get('/contents');
-      return response.data;
-    } catch (error) {
-      alert('조회 에러');
-    }
-  };
   const {
     data: contents,
     isLoading,
     error,
     refetch,
-  } = useQuery<ContentProps[], boolean>('contents', getContents);
-
-  useEffect(() => {
-    getContents();
-  }, []);
+  } = useQuery<ContentProps[], boolean>('contents', getAllContents);
 
   // POST
   const addContent = async (body: ContentProps) => {
@@ -72,7 +51,6 @@ export default function Home() {
       alert('저장 에러');
     }
   };
-
   const { mutate: addMutate } = useMutation(addContent, {
     onSuccess: () => {
       queryClient.invalidateQueries('contents');
@@ -130,7 +108,6 @@ export default function Home() {
   const handleUpdateLayout = useCallback(
     (layouts: Layouts) => {
       updateMutate(layouts);
-      console.log('여기 있어!2');
     },
     [updateMutate]
   );

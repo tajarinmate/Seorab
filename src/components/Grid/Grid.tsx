@@ -48,9 +48,7 @@ export function Grid({
     }));
   };
 
-  // breakpoint 변경
   const onBreakPointChange = (breakpoint: string) => {
-    // console.log(breakpoint) // lg or md or sm or xs or xxs
     setState((state) => ({
       ...state,
       breakpoints: breakpoint,
@@ -77,7 +75,7 @@ export function Grid({
         onLayoutChange={(layout, layouts) => onLayoutChange(layout, layouts)}
         onBreakpointChange={onBreakPointChange}
         compactType={null}
-        // useCSSTransforms={true} // CSS에서 position 속성 대신 translate()를 사용 -> 페인트 단계에서 6배 빠름
+        useCSSTransforms={true} // CSS에서 position 속성 대신 translate()를 사용 -> 페인트 단계에서 6배 빠름
       >
         {content.map((item: ContentProps) => {
           return (
