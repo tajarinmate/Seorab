@@ -20,8 +20,18 @@ export const GlobalStyle = createGlobalStyle`
     list-style: none;
   } 
 
-  button {
+  button, input {
     all: unset;
     cursor: pointer;
+  }
+
+  /* 숨김 콘텐츠 */
+  .a11y-hidden
+  {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: polygon(0 0, 0 0, 0 0);
   }
 `;

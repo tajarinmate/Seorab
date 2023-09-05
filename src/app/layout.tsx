@@ -1,8 +1,10 @@
 'use client';
-import { Registry as StyledComponentRegistry } from "@/styles/registry"
+import { Registry as StyledComponentRegistry } from '@/styles/registry';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { RecoilRoot } from 'recoil';
+import RecoilModalRoot from '@/components/RecoilModalRoot';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,7 +24,10 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
-          <StyledComponentRegistry>{children}</StyledComponentRegistry>
+          <RecoilRoot>
+            <RecoilModalRoot></RecoilModalRoot>
+            <StyledComponentRegistry>{children}</StyledComponentRegistry>
+          </RecoilRoot>
         </QueryClientProvider>
       </body>
     </html>

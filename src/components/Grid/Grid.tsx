@@ -2,36 +2,17 @@ import { Responsive, WidthProvider, Layout, Layouts } from 'react-grid-layout';
 import styled from 'styled-components';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { ChangeEvent, MouseEvent, useCallback } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
+import { MouseEvent } from 'react';
+import { ContentProps } from '@/types';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type GridProps = {
   content: ContentProps[];
-  handleAddContent: (MouseEvent: any) => void;
-  handleUpdateLayout: (layouts: Layouts) => void;
 };
 
-type ContentProps = {
-  i: string;
-  title: string;
-  text: string;
-  category_id: number;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-};
-
-export function Grid({
-  content,
-  handleAddContent,
-  handleUpdateLayout,
-}: GridProps) {
+export function Grid({ content }: GridProps) {
   const originalLayouts = getFromLayouts('layouts');
   const [state, setState] = useState({
     breakpoints: 'lg',
@@ -57,7 +38,6 @@ export function Grid({
 
   const handleSaveLayout = (e: MouseEvent) => {
     e.preventDefault();
-    // handleUpdateLayout(state.layouts);
     console.log(state.layouts);
   };
 
@@ -87,7 +67,6 @@ export function Grid({
         })}
       </SResponsiveGridLayout>
       <Flex>
-        <AddButton onClick={handleAddContent}>추가</AddButton>
         <AddButton onClick={handleSaveLayout}>레이아웃 DB에 저장</AddButton>
       </Flex>
     </Root>
