@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ModalProps } from '@/types';
+import { ModalProps } from '@/recoil/atoms';
 
 const Modal = ({ component, close }: ModalProps) => {
   const [zIndex, setZIndex] = useState(0);

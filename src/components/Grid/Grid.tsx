@@ -5,6 +5,8 @@ import 'react-resizable/css/styles.css';
 import { useState } from 'react';
 import { MouseEvent } from 'react';
 import { ContentProps } from '@/types';
+import useRecoilModal from '@/hooks/useRecoilModal';
+import { DetailContentModal } from '@/components/index';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -13,6 +15,7 @@ type GridProps = {
 };
 
 export function Grid({ content }: GridProps) {
+  const modal = useRecoilModal();
   const originalLayouts = getFromLayouts('layouts');
   const [state, setState] = useState({
     breakpoints: 'lg',
@@ -41,6 +44,16 @@ export function Grid({ content }: GridProps) {
     console.log(state.layouts);
   };
 
+  const handleOpen = (i: string) => {
+    modal.openModal({
+      component: () => <DetailContentModal i={i}/>,
+    });
+  };
+
+  // mousedown -> 현재 layout 가져오기
+  // mouseup -> 나중 layout 가져오기
+  // layout이 달라지지 않았다? -> 클릭 이벤트
+
   return (
     <Root>
       <SResponsiveGridLayout
@@ -62,6 +75,7 @@ export function Grid({ content }: GridProps) {
             <GridItemWrapper key={item.i}>
               <GridItemContent>{item.title}</GridItemContent>
               <GridItemContent>{item.text}</GridItemContent>
+              <EditButton onClick={() => handleOpen(item.i)}>수정</EditButton>
             </GridItemWrapper>
           );
         })}
@@ -92,7 +106,9 @@ const saveToLayouts = (key: string, value: Layouts) => {
   }
 };
 
-const GridItemWrapper = styled.div`
+const GridItemWrapper = styled.button`
+  width: 100%;
+  height: 100%;
   background: #f5f5f5;
   cursor: pointer;
   border-radius: 10px;
@@ -114,6 +130,12 @@ const SResponsiveGridLayout = styled(ResponsiveGridLayout)`
 
 const Flex = styled.div`
   display: flex;
+`;
+
+const EditButton = styled.button`
+  background-color: lightskyblue;
+  padding: 10px;
+  border-radius: 20px;
 `;
 
 const AddButton = styled.button`

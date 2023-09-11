@@ -3,6 +3,7 @@ import { atom } from 'recoil';
 export type ModalProps = {
   key?: string;
   component?: () => JSX.Element;
+  close?: () => void;
 };
 
 export const modalState = atom<ModalProps[]>({

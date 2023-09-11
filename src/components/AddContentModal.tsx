@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useAddContentMutaion } from '@/hooks';
 import { useRecoilValue } from 'recoil';
-import { userState } from '@/recoil/atoms';
+import { modalState, userState } from '@/recoil/atoms';
 
 export function AddContentModal() {
   const [value, setValue] = useState<string>('');
@@ -26,9 +26,15 @@ export function AddContentModal() {
     addMutate(content);
   }, [addMutate, userId, value]);
 
+  const modals = useRecoilValue(modalState);
   const handleSaveContent = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     handleAddContent();
+    if (modals) {
+      if (modals[0].close) {
+        modals[0].close();
+      }
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

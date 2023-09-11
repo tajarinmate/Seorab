@@ -1,3 +1,3 @@
 export * from './useRecoilModal';
-export * from './useContentsQuery';
-export * from './useAddContentMutation';
+export * from './useContentsQuery.ts';
+export * from './useAddContentMutation.ts';

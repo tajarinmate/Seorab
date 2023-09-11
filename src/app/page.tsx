@@ -63,7 +63,7 @@ export default function Home() {
   // );
 
   const modal = useRecoilModal();
-  const open = () => {
+  const handleOpen = () => {
     modal.openModal({
       component: () => <AddContentModal />,
     });
@@ -76,7 +76,7 @@ export default function Home() {
       <Nav />
       <Main>
         <SortButton>정렬</SortButton>
-        <SortButton onClick={open}>컨텐츠 추가</SortButton>
+        <SortButton onClick={handleOpen}>컨텐츠 추가</SortButton>
         <Content>{contents && <Grid content={contents} />}</Content>
       </Main>
     </Container>
