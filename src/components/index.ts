@@ -3,3 +3,5 @@ export * from './Nav/Nav';
 export * from './SideBar/SideBar';
 export * from './AddContentModal';
 export * from './DetailContentModal';
+export * from './PostDeleteModal';
+export * from './Editor/Editor';

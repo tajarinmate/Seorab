@@ -4,12 +4,16 @@ import { useAddContentMutaion } from '@/hooks';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/atoms';
 import { useContentQuery } from '@/hooks';
+import { Editor, PostDeleteModal } from '@/components/index';
+import useRecoilModal from '@/hooks/useRecoilModal';
+import Image from 'next/image';
 
 type DetailProp = {
   i: string;
 };
 
 export function DetailContentModal({ i }: DetailProp) {
+  const modal = useRecoilModal();
   const [title, setTitle] = useState<string>('');
   const [text, setText] = useState<string>('');
   const userId = useRecoilValue(userState);
@@ -32,25 +36,43 @@ export function DetailContentModal({ i }: DetailProp) {
     }
   }, [content]);
 
+  const handleOpen = () => {
+    modal.openModal({
+      component: () => <PostDeleteModal />,
+    });
+  };
+
   return (
     <ContentModal>
+      <Menu>
+        <Button>
+          <Image
+            priority={true}
+            src='/expand.png'
+            alt='자세히보기'
+            width={20}
+            height={20}
+          />
+        </Button>
+        <Button onClick={() => handleOpen()}>
+          <Image
+            priority={true}
+            src='/dots.png'
+            alt='더보기'
+            width={25}
+            height={25}
+          />
+        </Button>
+      </Menu>
       <Form>
-        <ContentLabel className='a11y-hidden'>제목</ContentLabel>
+        <TitleLabel className='a11y-hidden'>제목</TitleLabel>
         <TitleInput
           type='text'
           placeholder='제목'
           onChange={handleTitleChange}
           value={title}
         ></TitleInput>
-        <ContentLabel className='a11y-hidden'>내용</ContentLabel>
-        <TextInput
-          placeholder='내용'
-          onChange={handleTextChange}
-          value={text}
-        ></TextInput>
-        {/* <SaveButton type='submit' onClick={handleSaveContent}>
-          save
-        </SaveButton> */}
+        <Editor init={text} />
       </Form>
     </ContentModal>
   );
@@ -60,18 +82,35 @@ const ContentModal = styled.div`
   border-radius: 12px;
 `;
 
-const Form = styled.form`
-  height: 90%;
+const Menu = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 `;
 
-const ContentLabel = styled.label``;
+const Button = styled.button`
+  border-radius: 1px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  opacity: 50%;
+`;
+
+const Form = styled.form`
+  height: 90%;
+  display: flex;
+  flex-flow: column nowrap;
+`;
+
+const TitleLabel = styled.label``;
 
 const TitleInput = styled.input`
   cursor: auto;
-  width: 100%;
   height: 10%;
-  border-radius: 5px;
-  border: 2px solid rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
   padding-left: 24px;
 
   &focus {

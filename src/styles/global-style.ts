@@ -11,7 +11,12 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     background-color: #ffffff;
-    font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI;
+    @font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal, bold, bolder;
+    font-style: normal;
+  }
     font-size : 16px;
     color: rgb(58, 58, 58);
   }
@@ -34,4 +39,6 @@ export const GlobalStyle = createGlobalStyle`
     overflow: hidden;
     clip-path: polygon(0 0, 0 0, 0 0);
   }
+
+  
 `;

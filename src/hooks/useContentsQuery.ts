@@ -32,5 +32,44 @@ const getContent = async (id: number, i: string) => {
 };
 
 export function useContentQuery(id: number, i: string) {
-  return useQuery<ContentProps[], boolean>(['content'], () => getContent(id, i));
+  return useQuery<ContentProps[], boolean>(['content'], () =>
+    getContent(id, i)
+  );
 }
+
+// PUT
+// const updateText = async (modifyBody: ModifyContent) => {
+//   try {
+//     const originalData = await axios.patch(`/contents/${modifyBody.id}`);
+//     const updateObject = {
+//       ...originalData.data,
+//       id: modifyBody.id,
+//       text: modifyBody.text,
+//     };
+//     const { data } = await axios.patch(
+//       `/contents/${modifyBody.id}`,
+//       updateObject
+//     );
+//     return data;
+//   } catch {
+//     alert('수정 오류');
+//   }
+// };
+
+// const { mutate: updateMutate } = useMutation(updateText, {
+//   onSuccess: () => {
+//     queryClient.invalidateQueries('contents');
+//   },
+// });
+
+// const handleUpdateText = useCallback(
+//   (e: FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     updateMutate(modifyInfo);
+//     setModifyInfo({
+//       id: '',
+//       text: '',
+//     });
+//   },
+//   [updateMutate, modifyInfo]
+// );
